@@ -19,6 +19,7 @@
             justify-content: center;
             align-items: center;
             height: 100vh;
+            padding: 1rem;
         }
 
         .login-container, .dashboard-container {
@@ -27,7 +28,7 @@
             border-radius: 10px;
             box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
             max-width: 400px;
-            width: 90%;
+            width: 100%;
             text-align: center;
         }
 
@@ -77,28 +78,50 @@
 
         .dashboard-container h1 {
             font-size: 2rem;
-            margin-bottom: 1rem;
+            margin-bottom: 0.5rem;
         }
 
         .countdown {
             font-size: 1.5rem;
             color: #4A4A4A;
-            margin-bottom: 2rem;
+            margin: 1rem 0;
+            font-weight: 600;
+        }
+
+        .description {
+            margin-bottom: 1.5rem;
+            font-size: 1rem;
+            color: #4A4A4A;
+        }
+
+        .btn-group a {
+            display: block;
+            margin-bottom: 1rem;
+            padding: 0.75rem;
+            border-radius: 5px;
+            text-decoration: none;
+            font-weight: 600;
+            transition: background-color 0.3s;
+            color: white;
+        }
+
+        .whatsapp-btn {
+            background-color: #25D366;
+        }
+
+        .youtube-btn {
+            background-color: #FF0000;
+        }
+
+        .instagram-btn {
+            background-color: #E4405F;
+        }
+
+        .btn-group a:hover {
+            opacity: 0.9;
         }
 
         @media (max-width: 480px) {
-            .login-container, .dashboard-container {
-                padding: 1.5rem;
-            }
-
-            h2 {
-                font-size: 1.5rem;
-            }
-
-            input, .login-btn {
-                font-size: 1rem;
-            }
-
             .dashboard-container h1 {
                 font-size: 1.5rem;
             }
@@ -112,16 +135,16 @@
 <body>
 
 <div class="login-container" id="loginContainer">
-    <h2>Login 222</h2>
+    <h2>Login</h2>
     <form onsubmit="return login()">
         <div class="form-group">
             <label for="username">Usuário</label>
-            <input type="text" id="username" placeholder="Digite seu usuário" required>
+            <input type="text" id="username" value="jeferson" required>
         </div>
 
         <div class="form-group">
             <label for="password">Senha</label>
-            <input type="password" id="password" placeholder="Digite sua senha" required>
+            <input type="password" id="password" value="123456" required>
         </div>
 
         <button type="submit" class="login-btn">Entrar</button>
@@ -129,8 +152,25 @@
 </div>
 
 <div class="dashboard-container" id="dashboardContainer" style="display: none;">
-    <h1>Bem-vindo, Jeferson!</h1>
     <div class="countdown" id="countdown">Carregando...</div>
+    <h1>Bem-vindo, Jeferson!</h1>
+
+    <div class="description">
+        Prepare-se para o evento que começará no <strong>dia 26 de outubro às 9 horas</strong>. <br>
+        Confira as orientações abaixo para não perder nada:
+    </div>
+
+    <div class="btn-group">
+        <a href="https://chat.whatsapp.com" target="_blank" class="whatsapp-btn">
+            Entrar no grupo do WhatsApp da imersão
+        </a>
+        <a href="https://www.youtube.com/@deboraferreira_ong" target="_blank" class="youtube-btn">
+            Inscrever-se no canal do YouTube
+        </a>
+        <a href="https://www.instagram.com/deboraferreira.f" target="_blank" class="instagram-btn">
+            Seguir no Instagram
+        </a>
+    </div>
 </div>
 
 <script>
@@ -145,7 +185,7 @@
         } else {
             alert('Usuário ou senha incorretos!');
         }
-        return false; // Previne recarregamento da página
+        return false;
     }
 
     function startCountdown() {
@@ -166,8 +206,7 @@
             const minutes = Math.floor((distance % (1000 * 60 * 60)) / (1000 * 60));
             const seconds = Math.floor((distance % (1000 * 60)) / 1000);
 
-            countdownElement.innerHTML = 
-                `${days}d ${hours}h ${minutes}m ${seconds}s`;
+            countdownElement.innerHTML = `${days}d ${hours}h ${minutes}m ${seconds}s`;
 
             setTimeout(updateCountdown, 1000);
         }
