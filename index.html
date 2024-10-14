@@ -32,6 +32,12 @@
             text-align: center;
         }
 
+        .login-container img {
+            max-width: 80%;  /* Faz a imagem ocupar até 80% da largura disponível */
+            height: auto;   /* Mantém a proporção original */
+            margin-bottom: 1rem;
+        }
+
         h2 {
             margin-bottom: 1rem;
             color: #4A4A4A;
@@ -129,16 +135,20 @@
             .countdown {
                 font-size: 1.2rem;
             }
+
+            .login-container img {
+                max-width: 100%; /* Ajusta a imagem para telas menores */
+            }
         }
     </style>
 </head>
 <body>
 
 <div class="login-container" id="loginContainer">
-    <h2><img src="https://jefersonfarias.github.io/logo.png"></h2>
+    <img src="https://jefersonfarias.github.io/logo.png" alt="Logo">
     <form onsubmit="return login()">
         <div class="form-group">
-            <label for="username">Usuário</label>
+            <label for="username">Usuário 222</label>
             <input type="text" id="username" value="jeferson" required>
         </div>
 
