@@ -159,7 +159,7 @@
     <img src="https://jefersonfarias.github.io/logo.png" alt="Logo">
     <form onsubmit="return login()">
         <div class="form-group">
-            <label for="username">Usuário</label>
+            <label for="username">Usuário 33</label>
             <input type="text" id="username" value="jeferson" required>
         </div>
 
@@ -195,28 +195,38 @@
 </div>
 
 <script>
-    function login() {
-
-        // Array de e-mails permitidos
-const allowedEmails = [
-    'jeferson@example.com',
-    'admin@example.com',
-    'user@example.com'
+// Hashes SHA-256 dos e-mails autorizados
+const allowedEmailHashes = [
+    'c29f23dc932fcaac90c2c928e4a8ed6d8d2dbbb78fce3c6a3f4f7ac1142a5b5c', // jeferson@example.com
+    'd6b1b8d34f8cc40153d1e7f5d3627613e51280ec04e4c3d21808f885a27f5d18', // admin@example.com
+    '453c1e4fc704bb8d6a24e73328d2b62ccfe5e5030e47a5d9279d5c2855cf7fdd'  // user@example.com
 ];
 
+async function hashEmail(email) {
+    const msgUint8 = new TextEncoder().encode(email); 
+    const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
+    const hashArray = Array.from(new Uint8Array(hashBuffer));
+    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+}
 
-        const username = document.getElementById('username').value;
-        const password = document.getElementById('password').value;
+async function login() {
+    const username = document.getElementById('username').value;
+    const password = document.getElementById('password').value;
 
-        if (allowedEmails.includes(username)  && password === '123456') {
-            document.getElementById('loginContainer').style.display = 'none';
-            document.getElementById('dashboardContainer').style.display = 'block';
-            startCountdown();
-        } else {
-            alert('Usuário ou senha incorretos!');
-        }
-        return false;
+    // Gera o hash do e-mail inserido pelo usuário
+    const hashedUsername = await hashEmail(username);
+
+    // Verifica se o hash do e-mail está na lista e se a senha é correta
+    if (allowedEmailHashes.includes(hashedUsername) && password === '123456') {
+        document.getElementById('loginContainer').style.display = 'none';
+        document.getElementById('dashboardContainer').style.display = 'block';
+        startCountdown();
+    } else {
+        alert('E-mail ou senha incorretos!');
     }
+    return false;
+}
+
 
     function startCountdown() {
         const countdownElement = document.getElementById('countdown');
