@@ -11,7 +11,7 @@
     <meta http-equiv="Cache-Control" content="no-cache, no-store, must-revalidate" />
     <meta http-equiv="Pragma" content="no-cache" />
     <meta http-equiv="Expires" content="0" />
-    
+
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>Login e Dashboard</title>
@@ -196,10 +196,19 @@
 
 <script>
     function login() {
+
+        // Array de e-mails permitidos
+const allowedEmails = [
+    'jeferson@example.com',
+    'admin@example.com',
+    'user@example.com'
+];
+
+
         const username = document.getElementById('username').value;
         const password = document.getElementById('password').value;
 
-        if (username === 'jeferson' && password === '123456') {
+        if (allowedEmails.includes(username)  && password === '123456') {
             document.getElementById('loginContainer').style.display = 'none';
             document.getElementById('dashboardContainer').style.display = 'block';
             startCountdown();
