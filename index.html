@@ -160,7 +160,7 @@
     <form onsubmit="return login()">
         <div class="form-group">
             <label for="username">Usuário 33</label>
-            <input type="text" id="username" value="jeferson" required>
+            <input type="text" id="username" value="jeferson@example.com" required>
         </div>
 
         <div class="form-group">
@@ -196,19 +196,23 @@
 
 <script>
 // Hashes SHA-256 dos e-mails autorizados
+// Hashes SHA-256 dos e-mails autorizados
 const allowedEmailHashes = [
     'c29f23dc932fcaac90c2c928e4a8ed6d8d2dbbb78fce3c6a3f4f7ac1142a5b5c', // jeferson@example.com
     'd6b1b8d34f8cc40153d1e7f5d3627613e51280ec04e4c3d21808f885a27f5d18', // admin@example.com
     '453c1e4fc704bb8d6a24e73328d2b62ccfe5e5030e47a5d9279d5c2855cf7fdd'  // user@example.com
 ];
 
+// Função para gerar o hash SHA-256 do e-mail
 async function hashEmail(email) {
-    const msgUint8 = new TextEncoder().encode(email); 
+    const trimmedEmail = email.trim().toLowerCase(); // Remove espaços e converte para minúsculas
+    const msgUint8 = new TextEncoder().encode(trimmedEmail); 
     const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
     const hashArray = Array.from(new Uint8Array(hashBuffer));
     return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
 }
 
+// Função de login
 async function login() {
     const username = document.getElementById('username').value;
     const password = document.getElementById('password').value;
@@ -226,6 +230,7 @@ async function login() {
     }
     return false;
 }
+
 
 
     function startCountdown() {
