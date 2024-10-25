@@ -157,10 +157,10 @@
 
 <div class="login-container" id="loginContainer">
     <img src="https://jefersonfarias.github.io/logo.png" alt="Logo">
-    <form onsubmit="return login()">
+    <form onsubmit="return login2()">
         <div class="form-group">
-            <label for="username">Usuário 33</label>
-            <input type="text" id="username" value="jeferson@example.com" required>
+            <label for="username">Usuário </label>
+            <input type="text" id="username" value="" required>
         </div>
 
         <div class="form-group">
@@ -174,7 +174,7 @@
 
 <div class="dashboard-container" id="dashboardContainer" style="display: none;">
     <div class="countdown" id="countdown">Carregando...</div>
-    <h1>Bem-vindo, Jeferson!</h1>
+    <h1>Bem-vindo!!!</h1>
 
     <div class="description">
         Prepare-se para o evento que começará no <strong>dia 26 de outubro às 9 horas</strong>. <br>
@@ -182,7 +182,7 @@
     </div>
 
     <div class="btn-group">
-        <a href="https://chat.whatsapp.com" target="_blank" class="whatsapp-btn">
+        <a href="https://chat.whatsapp.com/DdNW5qGUjT7E3JE94XEvkD" target="_blank" class="whatsapp-btn">
             Entrar no grupo do WhatsApp da imersão
         </a>
         <a href="https://www.youtube.com/@deboraferreira_ong" target="_blank" class="youtube-btn">
@@ -198,39 +198,66 @@
 // Hashes SHA-256 dos e-mails autorizados
 // Hashes SHA-256 dos e-mails autorizados
 const allowedEmailHashes = [
-    'c29f23dc932fcaac90c2c928e4a8ed6d8d2dbbb78fce3c6a3f4f7ac1142a5b5c', // jeferson@example.com
-    'd6b1b8d34f8cc40153d1e7f5d3627613e51280ec04e4c3d21808f885a27f5d18', // admin@example.com
-    '453c1e4fc704bb8d6a24e73328d2b62ccfe5e5030e47a5d9279d5c2855cf7fdd'  // user@example.com
+    'KLGDyZqnbNWc0XmlH6jTmQq5YK7I7rR8jbjfCtHN7og=',
+    '0j5Bi+jVcHmOfPS+0xcjfscFVXDQnh/W4JOqFwR0FRs=',
+'0j5Bi+jVcHmOfPS+0xcjfscFVXDQnh/W4JOqFwR0FRs=',
+'MUXKbiFbxh6HNk7U6s5V27qVsxWCQ/BVqi4uxBpX6Sg=',
+'9H39Iu4hstKzI7UvPd+z+V8UhN6KDMJ+Q0THZI80dVs=',
+'aU6XRh+4PE0rSMSv4as+aQE4Smfb02UqGEmySJF7w+A=',
+'JNpz6yUGH3lBIIpBNU6mwR97gqP7sZ9njQwKYZ5hD04=',
+'9C0u/rV3D5ttzx8JMow4slsYG5o9FAysIbumA7JZTq8=',
+'VISkoEpOU+sM/bz0F8KvxJZyTsfJSNhIqJYoz1Z/qc28WfdA4nKKZHpbFBu7Oyc6',
+'zHKGhfkeCl/saf6mQBGCHRdTmd+Xncj6TxqE7X7aBpA=',
+'GDoj5c1qBd76Irdr0ttZDYWLDCYx/THOYNIJTS/PpaY=',
+'qfNuLuJMCu/cr5f2IjQDrT5a00dxj4i00wkQ5ph7EAc=',
+'MUXKbiFbxh6HNk7U6s5V2w05z/w5rRIByvVIs/lWmUQ=',
+'sp7g61tW2y34WZNNL7HkRwqVcRUrclLRr5SkWcBiN9k=',
+'e1VTC+0XK4j5XB9J3iqsAwN48gqXgGXaJVge+c3Aul4=',
+'sp7g61tW2y34WZNNL7HkR7LfWVdA7kA5Vapxxc2j4qQ=',
+'FLnutCuyKT7ZRRp4FTVzl/mWCN6peOd1h5X6L31XU6M=',
+'4gDBesgvyW7p5G6okhLs3ALEm+mpXdH0ccvGU2H5TAc=',
+'aU6XRh+4PE0rSMSv4as+aR4jP11tQlJwiDgd29/Z08Y=',
+'I2waUVJKb2BCn+AgU52XclIbz0/p6WG8qtObFQJHPA0=',
+'0j5Bi+jVcHmOfPS+0xcjfmcqZuSuhbb8EW/vwZojjn0=',
+'PHFKipGn8KGLJ00+fQOtyGutna9IUyCXoIZKlJy6EdFs39y8POC8VVu6DmjQ3pjD',
+'qG4rEpGcJUcEdlpFsPdOi9sizy8mDbhfvGyQ4k20Szw=',
+'T1nnLAEZRrsSrsH5fYMyA2KMv2arBQ7TffmnOLs8Cb4=',
 ];
 
-// Função para gerar o hash SHA-256 do e-mail
-async function hashEmail(email) {
-    const trimmedEmail = email.trim().toLowerCase(); // Remove espaços e converte para minúsculas
-    const msgUint8 = new TextEncoder().encode(trimmedEmail); 
-    const hashBuffer = await crypto.subtle.digest('SHA-256', msgUint8);
-    const hashArray = Array.from(new Uint8Array(hashBuffer));
-    return hashArray.map(b => b.toString(16).padStart(2, '0')).join('');
+const script = document.createElement('script');
+script.src = 'https://cdnjs.cloudflare.com/ajax/libs/crypto-js/4.1.1/crypto-js.min.js';
+document.head.appendChild(script);
+
+// Função para criptografar o e-mail SEM IV aleatório (determinístico)
+function encryptEmail(email, secretKey) {
+    const encrypted = CryptoJS.AES.encrypt(email, CryptoJS.enc.Utf8.parse(secretKey), {
+        iv: CryptoJS.enc.Utf8.parse('0000000000000000'), // IV fixo (zeroed-out)
+        mode: CryptoJS.mode.CBC, // Modo CBC sem IV aleatório
+        padding: CryptoJS.pad.Pkcs7
+    }).toString();
+    return encrypted;
 }
 
-// Função de login
-async function login() {
-    const username = document.getElementById('username').value;
-    const password = document.getElementById('password').value;
+secret_key="teste"
 
-    // Gera o hash do e-mail inserido pelo usuário
-    const hashedUsername = await hashEmail(username);
+function login2() {
+        const username = document.getElementById('username').value;
+        const password = document.getElementById('password').value;
 
-    // Verifica se o hash do e-mail está na lista e se a senha é correta
-    if (allowedEmailHashes.includes(hashedUsername) && password === '123456') {
-        document.getElementById('loginContainer').style.display = 'none';
-        document.getElementById('dashboardContainer').style.display = 'block';
-        startCountdown();
-    } else {
-        alert('E-mail ou senha incorretos!');
+        const hashedUsername = encryptEmail(username, username)
+        // alert(hashedUsername)
+        // alert(allowedEmailHashes.includes(hashedUsername))
+
+        if (allowedEmailHashes.includes(hashedUsername) && password === '123456') {
+            document.getElementById('loginContainer').style.display = 'none';
+            document.getElementById('dashboardContainer').style.display = 'block';
+            startCountdown();
+            return false
+        } else {
+            alert('Usuário ou senha incorretos!');
+        }
+        return false;
     }
-    return false;
-}
-
 
 
     function startCountdown() {
